@@ -1,4 +1,3 @@
-# Orbit-Simulator-for-Inner-Plannets
+# Orbit-Simulator
 
-A basic orbit simulator for the inner planets of the solar system using an Runge-Kutta 4th order method to 
-solve the gravitational equation. Also uses Numba to improve the performance of the Runge-Kutta method.
+A basic orbit simulator that uses matplotlib's animate feature to get a visualization of the planets orbits. The user just inputs the number of planets and the names of the planets which they want to see and they will all be animated.
