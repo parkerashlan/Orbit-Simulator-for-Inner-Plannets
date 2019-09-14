@@ -1,11 +1,7 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 """
 Created on Thu May 23 06:49:26 2019
-
-Last Edited: 6/18/19 2:47 AM by Ashlan Parker
     
-@author: Ashlan Parker and Chris Crews-Holloway
+@author: Ashlan Parker
 """
 from numba import jit
 import numpy as np
@@ -34,19 +30,26 @@ planetdict ={'Mercury':Mercury,'Venus':Venus,'Earth':Earth,'Mars':Mars,'Jupiter'
 
 @jit(nopython=True,parallel=True)
 def SunGravity(x0,y0,vx0,vy0,t,dt):
+    
     G = 6.67e-11
     m = 1.989e30
     n = int(t/dt)
+    
     xvals = np.zeros(n+1)
     yvals = np.zeros(n+1)
+    
     ax = lambda x,y: -((G*m*x)/((x**2+y**2)**(3/2)))
     ay = lambda x,y: -((G*m*y)/((x**2+y**2)**(3/2)))
+    
     x=x0
     y=y0
+    
     vx=vx0
     vy=vy0
+    
     xvals[0] = x0
     yvals[0] = y0
+    
     for i in range(1,n+1):
         k1x = vx
         k1y = vy
@@ -80,18 +83,16 @@ def SunGravity(x0,y0,vx0,vy0,t,dt):
        
         xvals[i] = x
         yvals[i] = y
-
-  
+ 
     return xvals,yvals
 
 def ChooseBody(planet):
-    t1 = time.perf_counter()
+    
     if planetdict[planet].period >= 1e8:
         planetmotion = SunGravity(0,planetdict[planet].distance,planetdict[planet].velocity,0,planetdict[planet].period,10000)
     else:
         planetmotion = SunGravity(0,planetdict[planet].distance,planetdict[planet].velocity,0,planetdict[planet].period,100)
-    t2 = time.perf_counter()
-    print(t2-t1)
+
     return planetmotion
 
 numberofplanets = input('Please input the number of planets:')
